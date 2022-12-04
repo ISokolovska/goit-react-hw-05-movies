@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { Form, FormButton, InputForm } from './Styled';
 
 const SearchMovie = () => {
-  const [query, setQuery] = useState(''); // query for handleChange
+  const [query, setQuery] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleChange = e => {
@@ -15,12 +16,12 @@ const SearchMovie = () => {
   };
 
   return (
-    <form action="submit" onSubmit={handleSubmit}>
+    <Form action="submit" onSubmit={handleSubmit}>
       <label htmlFor="">
-        <input value={query} onChange={handleChange} />
+        <InputForm value={query} onChange={handleChange} />
       </label>
-      <button type="submit"></button>
-    </form>
+      <FormButton type="submit">Search</FormButton>
+    </Form>
   );
 };
 

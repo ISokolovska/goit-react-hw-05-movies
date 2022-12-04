@@ -3,14 +3,14 @@ import Notiflix from 'notiflix';
 import { getSearchMovies } from 'services/Api';
 import SearchMovie from 'components/Search/Search';
 import { Loader } from 'components/Loader/Loader';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { MovieDate, MovieList, MovieTitle, NotFindTitle } from 'Styled';
 
 export const Movies = () => {
   const [movieSearch, setMovieSearch] = useState(null);
-  //   const [query, setQuery] = useState('');
   const [searchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
-
+  const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -35,24 +35,36 @@ export const Movies = () => {
       <section>
         {isLoading === true && <Loader />}
         {movieSearch && movieSearch.length > 0 && (
-          <ul>
+          <MovieList>
             {movieSearch.map(movie => {
               return (
                 <li key={movie.id}>
-                  <Link to={`/movies/${movie.id}`}>
-                    <h2>{movie.title}</h2>
+                  <Link to={`/movies/${movie.id}`} state={{ from: location }}>
+                    <img
+                      src={
+                        movie.poster_path
+                          ? 'https://image.tmdb.org/t/p/w500' +
+                            movie.poster_path
+                          : 'https://image.tmdb.org/t/p/w500/wwemzKWzjKYJFfCeiB57q3r4Bcm.png'
+                      }
+                      alt="About movie"
+                      width="235"
+                      height="350"
+                    />
+                    <MovieTitle>{movie.title}</MovieTitle>
                   </Link>
+                  <MovieDate>{movie.release_date}</MovieDate>
                 </li>
               );
             })}
-          </ul>
+          </MovieList>
         )}
         {movieSearch &&
           movieSearch.length === 0 &&
           (query ? (
-            <h2>Sorry, we have not found anything !</h2>
+            <NotFindTitle>Sorry, we have not found anything !</NotFindTitle>
           ) : (
-            <h2>Please, enter request !</h2>
+            <NotFindTitle>Please, enter request !</NotFindTitle>
           ))}
       </section>
     </>

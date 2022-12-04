@@ -5,6 +5,7 @@ import { getMovies } from 'services/Api';
 import { Link } from 'react-router-dom';
 
 import { Loader } from '../components/Loader/Loader';
+import { MovieDate, MovieList, MovieTitle, Trending } from 'Styled';
 
 export const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -16,11 +17,6 @@ export const Home = () => {
       try {
         const data = await getMovies();
         setMovies(() => data.results);
-
-        // if (results.length === 0) {
-        //   Notiflix.Notify.info('Sorry, we have not found anything !');
-        // }
-        // setMovies(prevState => [...prevState, ...data.results]);
       } catch (err) {
         Notiflix.Notify.failure(err.message);
       } finally {
@@ -33,19 +29,30 @@ export const Home = () => {
   return (
     <section>
       {isLoading === true && <Loader />}
-      <h1>Trending today</h1>
+      <Trending>Trending today</Trending>
       {movies && movies.length > 0 && (
-        <ul>
+        <MovieList>
           {movies.map(movie => {
             return (
               <li key={movie.id}>
                 <Link to={`/movies/${movie.id}`}>
-                  <h2>{movie.title}</h2>
-                </Link>
+                  <img
+                    src={
+                      movie.poster_path
+                        ? 'https://image.tmdb.org/t/p/w500' + movie.poster_path
+                        : 'https://image.tmdb.org/t/p/w500/wwemzKWzjKYJFfCeiB57q3r4Bcm.png'
+                    }
+                    alt="About movie"
+                    width="235"
+                    height="350"
+                  />
+                  <MovieTitle>{movie.title}</MovieTitle>
+                </Link>{' '}
+                <MovieDate>{movie.release_date}</MovieDate>
               </li>
             );
           })}
-        </ul>
+        </MovieList>
       )}
     </section>
   );

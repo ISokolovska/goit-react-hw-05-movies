@@ -3,8 +3,9 @@ import { useParams } from 'react-router-dom';
 import Notiflix from 'notiflix';
 import { getMovieReviews } from 'services/Api';
 import { Loader } from 'components/Loader/Loader';
+import { NoReviews, ReviewsContent, ReviewsInfo } from './Styled';
 
-export const Reviews = () => {
+const Reviews = () => {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +15,6 @@ export const Reviews = () => {
       setIsLoading(true);
       try {
         const data = await getMovieReviews(movieId);
-        console.log(data);
         setReviews(() => data);
       } catch (err) {
         Notiflix.Notify.failure(err.message);
@@ -26,7 +26,7 @@ export const Reviews = () => {
   }, [movieId]);
 
   return (
-    <div>
+    <ReviewsInfo>
       {isLoading === true && <Loader />}
       <h2>Reviews</h2>
       {reviews && reviews.results.length > 0 ? (
@@ -34,13 +34,15 @@ export const Reviews = () => {
           {reviews.results.map(result => (
             <li key={result.id}>
               <h3>{result.author}</h3>
-              <p>{result.content}</p>
+              <ReviewsContent>{result.content}</ReviewsContent>
             </li>
           ))}
         </ul>
       ) : (
-        <p>We don't have any reviews for this movie</p>
+        <NoReviews>We don't have any reviews for this movie</NoReviews>
       )}
-    </div>
+    </ReviewsInfo>
   );
 };
+
+export default Reviews;

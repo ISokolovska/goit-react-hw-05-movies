@@ -1,50 +1,24 @@
-// import React, { useState, useEffect } from 'react';
-// import Notiflix from 'notiflix';
-import { Movies } from 'pages/Moviepage';
-import { Routes, Route, NavLink } from 'react-router-dom';
-// import { StyledNavLink } from '../Styled';
+import React, { lazy } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { Home } from '../pages/Homepage';
-// import { Movies } from '../pages/Moviepage';
+import { Movies } from '../pages/Moviepage';
 import { MovieDetails } from '../pages/MovieDetails';
-import { Cast } from './Cast/Cast';
-import { Reviews } from './Reviews/Reviews';
+import { StyledNavLink, Header } from '../Styled';
+import { Suspense } from 'react';
+
+const Cast = lazy(() => import('./Cast/Cast'));
+const Reviews = lazy(() => import('./Reviews/Reviews'));
 
 export const App = () => {
-  // const [movies, setMovies] = useState([]);
-  // const [query, setQuery] = useState('');
-  // const [error, setError] = useState('');
-  // const [isLoading, setIsLoading] = useState(false);
-
-  // useEffect(() => {
-  //   if (!query) return;
-
-  //   setMovies([]);
-  //   fetchMovies(query);
-  //   // eslint-disable-next-line
-  // }, [query]);
-
-  // const fetchMovies = async query => {
-  //   setIsLoading(true);
-  //   try {
-  //     const data = await getMovies(query);
-  //     console.log(data);
-  //     // if (data.hits.length === 0) {
-  //     //   Notiflix.Notify.info('Sorry, we have not found anything !');
-  //     // }
-  //     setMovies(prevState => [...prevState, ...data.movie]);
-  //     setIsLoading(false);
-  //   } catch (err) {
-  //     setError(err.message);
-  //     Notiflix.Notify.failure(error);
-  //   }
-  // };
-
   return (
     <div>
-      <nav>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/movies">Movies</NavLink>
-      </nav>
+      <header>
+        <Header>
+          <StyledNavLink to="/">Home</StyledNavLink>
+          <StyledNavLink to="/movies">Movies</StyledNavLink>
+        </Header>
+      </header>
+      <Suspense fallback={<div>Loading...</div>}></Suspense>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/movies" element={<Movies />} />
@@ -52,7 +26,6 @@ export const App = () => {
           <Route path="/movies/:movieId/cast" element={<Cast />} />
           <Route path="/movies/:movieId/reviews" element={<Reviews />} />
         </Route>
-
         <Route path="*" element={<Home />} />
       </Routes>
     </div>

@@ -3,8 +3,9 @@ import { useParams } from 'react-router-dom';
 import Notiflix from 'notiflix';
 import { getMovieCasts } from 'services/Api';
 import { Loader } from 'components/Loader/Loader';
+import { CastCharacter, CastName, CastsInfo } from './Styled';
 
-export const Cast = () => {
+const Cast = () => {
   const { movieId } = useParams();
   const [casts, setCasts] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +27,7 @@ export const Cast = () => {
   }, [movieId]);
 
   return (
-    <div>
+    <CastsInfo>
       {isLoading === true && <Loader />}
       <h2>Cast</h2>
       {casts && (
@@ -44,10 +45,13 @@ export const Cast = () => {
                           : 'https://image.tmdb.org/t/p/w500/wwemzKWzjKYJFfCeiB57q3r4Bcm.png'
                       }
                       alt={cast.name}
-                      width="150"
-                      height="225"
+                      width="170"
+                      height="250"
                     />
-                    <p>{cast.name}</p>
+                    <CastName>{cast.name}</CastName>
+                    <CastCharacter>
+                      <b>Character:</b> {cast.character}
+                    </CastCharacter>
                   </li>
                 );
               })}
@@ -55,6 +59,8 @@ export const Cast = () => {
           )}
         </div>
       )}
-    </div>
+    </CastsInfo>
   );
 };
+
+export default Cast;
