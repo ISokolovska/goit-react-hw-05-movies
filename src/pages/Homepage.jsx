@@ -8,7 +8,6 @@ import { Loader } from '../components/Loader/Loader';
 
 export const Home = () => {
   const [movies, setMovies] = useState([]);
-  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -17,28 +16,26 @@ export const Home = () => {
       try {
         const data = await getMovies();
         setMovies(() => data.results);
-        console.log(data.results);
+
         // if (results.length === 0) {
         //   Notiflix.Notify.info('Sorry, we have not found anything !');
         // }
         // setMovies(prevState => [...prevState, ...data.results]);
       } catch (err) {
-        setError(err.message);
-        Notiflix.Notify.failure(error);
+        Notiflix.Notify.failure(err.message);
       } finally {
         setIsLoading(false);
       }
     };
     fetchMovies();
-    // eslint-disable-next-line
   }, []);
 
   return (
     <section>
       {isLoading === true && <Loader />}
       <h1>Trending today</h1>
-      {movies.length > 0 && (
-        <ul movies={movies}>
+      {movies && movies.length > 0 && (
+        <ul>
           {movies.map(movie => {
             return (
               <li key={movie.id}>

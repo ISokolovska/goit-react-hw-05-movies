@@ -1,60 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
+import { Link, Outlet, useParams } from 'react-router-dom';
 import Notiflix from 'notiflix';
-import { useParams } from 'react-router-dom';
-import {
-  //   getMovieCredits,
-  getMovieDetails,
-  //   getMovieReviews,
-} from 'services/Api';
+
+import { getMovieDetails } from 'services/Api';
+import { Loader } from 'components/Loader/Loader';
 
 export const MovieDetails = () => {
   const { movieId } = useParams();
   const [movieDetails, setMovieDetails] = useState(null);
-  //   const [movieCredits, setMovieCredits] = useState(null);
-  //   const [movieReviews, setMovieReviews] = useState(null);
-  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchMovieDetails = async movieId => {
-      // setIsLoading(true);
+      setIsLoading(true);
       try {
         const data = await getMovieDetails(movieId);
-        // const movieCredits = await getMovieCredits(movieId);
-        // const movieReviews = await getMovieReviews(movieId);
-        console.log(data);
-
         setMovieDetails(() => data);
-
-        // setMovieCredits(movieCredits);
-        // setMovieReviews(movieReviews);
-        // console.log(data.results);
-        // if (results.length === 0) {
-        //   Notiflix.Notify.info('Sorry, we have not found anything !');
-        // }
-        // setMovies(prevState => [...prevState, ...data.results]);
       } catch (err) {
-        setError(err.message);
-        Notiflix.Notify.failure(error);
+        Notiflix.Notify.failure(err.message);
       } finally {
-        // setIsLoading(false);
+        setIsLoading(false);
       }
     };
     fetchMovieDetails(movieId);
-    // eslint-disable-next-line
   }, [movieId]);
-
-  //   useEffect(() => {
-  //     console.log(movieCredits);
-  //     console.log(movieReviews);
-  //   }, [movieCredits, movieReviews]);
 
   return (
     <div>
+      {isLoading === true && <Loader />}
       <button>Go back</button>
       {movieDetails && (
         <div>
           <img
-            src={'https://image.tmdb.org/t/p/w500' + movieDetails.poster_path}
+            src={
+              movieDetails.poster_path
+                ? 'https://image.tmdb.org/t/p/w500' + movieDetails.poster_path
+                : 'https://image.tmdb.org/t/p/w500/wwemzKWzjKYJFfCeiB57q3r4Bcm.png'
+            }
             alt="About movie"
           />
           <h1>{movieDetails.title}</h1>
@@ -65,6 +47,24 @@ export const MovieDetails = () => {
           <p>{movieDetails.genres.map(genre => genre.name).join(', ')}</p>
         </div>
       )}
+      <div>
+        <h2>Additional information</h2>
+        <ul>
+          <li>
+            <Link to={'cast'}>
+              <p>Cast</p>
+            </Link>
+          </li>
+          <li>
+            <Link to={'reviews'}>
+              <p>Reviews</p>
+            </Link>
+          </li>
+        </ul>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Outlet />
+        </Suspense>
+      </div>
     </div>
   );
 };

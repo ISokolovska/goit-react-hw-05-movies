@@ -1,11 +1,11 @@
 import axios from 'axios';
 const API_KEY = '52034845be946f0ec5084ce7d11f96f3';
+axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
 export const getMovies = async () => {
   const config = {
     params: {
       api_key: API_KEY,
-      // page: page,
     },
   };
   const { data } = await axios.get(
@@ -15,11 +15,12 @@ export const getMovies = async () => {
   return data;
 };
 
-export const getSearchMovies = async () => {
+export const getSearchMovies = async query => {
   const config = {
     params: {
       api_key: API_KEY,
-      // page: page,
+      query: query,
+      page: 1,
     },
   };
   const { data } = await axios.get(
@@ -33,7 +34,6 @@ export const getMovieDetails = async (movieId = '') => {
   const config = {
     params: {
       api_key: API_KEY,
-      // page: page,
     },
   };
   const { data } = await axios.get(
@@ -43,11 +43,10 @@ export const getMovieDetails = async (movieId = '') => {
   return data;
 };
 
-export const getMovieCredits = async (movieId = '') => {
+export const getMovieCasts = async (movieId = '') => {
   const config = {
     params: {
       api_key: API_KEY,
-      // page: page,
     },
   };
   const { data } = await axios.get(
@@ -61,7 +60,7 @@ export const getMovieReviews = async (movieId = '') => {
   const config = {
     params: {
       api_key: API_KEY,
-      // page: page,
+      page: 1,
     },
   };
   const { data } = await axios.get(

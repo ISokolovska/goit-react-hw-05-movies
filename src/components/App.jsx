@@ -1,10 +1,13 @@
 // import React, { useState, useEffect } from 'react';
 // import Notiflix from 'notiflix';
+import { Movies } from 'pages/Moviepage';
 import { Routes, Route, NavLink } from 'react-router-dom';
 // import { StyledNavLink } from '../Styled';
 import { Home } from '../pages/Homepage';
-import { Movies } from '../pages/Moviepage';
+// import { Movies } from '../pages/Moviepage';
 import { MovieDetails } from '../pages/MovieDetails';
+import { Cast } from './Cast/Cast';
+import { Reviews } from './Reviews/Reviews';
 
 export const App = () => {
   // const [movies, setMovies] = useState([]);
@@ -44,8 +47,11 @@ export const App = () => {
       </nav>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/movies" element={<Movies />} /> */}
-        <Route path="/movies/:movieId" element={<MovieDetails />} />
+        <Route path="/movies" element={<Movies />} />
+        <Route path="/movies/:movieId" element={<MovieDetails />}>
+          <Route path="/movies/:movieId/cast" element={<Cast />} />
+          <Route path="/movies/:movieId/reviews" element={<Reviews />} />
+        </Route>
 
         <Route path="*" element={<Home />} />
       </Routes>
