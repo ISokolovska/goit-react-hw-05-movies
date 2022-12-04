@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Notiflix from 'notiflix';
 
 import { getMovies } from 'services/Api';
-import { Link } from 'react-router-dom';
 
 import { Loader } from '../components/Loader/Loader';
 import { MovieDate, MovieList, MovieTitle, Trending } from 'Styled';

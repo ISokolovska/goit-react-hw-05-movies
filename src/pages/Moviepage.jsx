@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import Notiflix from 'notiflix';
+
 import { getSearchMovies } from 'services/Api';
+
 import SearchMovie from 'components/Search/Search';
 import { Loader } from 'components/Loader/Loader';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+
 import { MovieDate, MovieList, MovieTitle, NotFindTitle } from 'Styled';
 
 export const Movies = () => {
