@@ -4,7 +4,7 @@ import { Form, FormButton, InputForm } from './Styled';
 
 const SearchMovie = () => {
   const [query, setQuery] = useState('');
-  const [setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleChange = e => {
     setQuery(e.target.value);

@@ -15,7 +15,6 @@ const Cast = () => {
       setIsLoading(true);
       try {
         const data = await getMovieCasts(movieId);
-        console.log(data);
         setCasts(() => data.cast);
       } catch (err) {
         Notiflix.Notify.failure(err.message);
