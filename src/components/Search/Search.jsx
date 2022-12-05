@@ -12,7 +12,7 @@ const SearchMovie = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    setSearchParams({ query: query.trim() });
+    setSearchParams({ query: query });
   };
 
   return (
