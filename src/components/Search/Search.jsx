@@ -13,6 +13,11 @@ const SearchMovie = () => {
   const handleSubmit = e => {
     e.preventDefault();
     setSearchParams({ query: input.trim() });
+    reset();
+  };
+
+  const reset = () => {
+    setInput('');
   };
 
   return (
