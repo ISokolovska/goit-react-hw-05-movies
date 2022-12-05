@@ -7,7 +7,7 @@ const SearchMovie = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleChange = e => {
-    setQuery(e.target.value);
+    setQuery(e.target.value.trim());
   };
 
   const handleSubmit = e => {
