@@ -47,7 +47,7 @@ export const Home = () => {
                     height="350"
                   />
                   <MovieTitle>{movie.title}</MovieTitle>
-                </Link>{' '}
+                </Link>
                 <MovieDate>{movie.release_date}</MovieDate>
               </li>
             );
